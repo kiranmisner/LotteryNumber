@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Lottery Number</title>
+</head>
+<body>
+	<script lang="javascript">
+		var counter = 0;
+		var number_arr = [];
+		while (counter < 5) {
+			var reg_ball = (Math.ceil(Math.random() * 48));
+			while (number_arr.indexOf(reg_ball) != -1) {
+					reg_ball = (Math.ceil(Math.random() * 48));
+			}
+			number_arr[counter] = reg_ball;
+			counter++;
+		}				
+		var lucky_num = (Math.ceil(Math.random() * 18));
+		while (number_arr.indexOf(lucky_num) != -1) {
+		lucky_num = (Math.ceil(Math.random() * 18));
+		} 
+
+		document.write ("Numbers in the array: ");
+		for (var i = 0; i < 5; i++) {
+			document.write(number_arr[i]);
+			document.write(" ");
+		}
+		document.write("Lucky Ball: ", lucky_num);
+		number_arr.sort(function(a, b){return a - b});
+		document.write ("<br>", "Sorted Numbers in the array: ");
+		for (var i = 0; i < 5; i++) {
+			document.write(number_arr[i]);
+			document.write(" ");
+		}
+	</script>
+	<form>
+		Five Nums:
+		<input type="text" id="fivenums" name="fivenums"><br><br>
+		Lucky Ball: 
+		<input type="text" id="luckyball" name="luckyball"><br><br>
+		<input type = "button" onclick = parseInput() value = "Submit">
+		<div id = "payout"> </div>
+		<script type="text/javascript">
+			function parseInput() {
+				var firstfive = document.getElementById('fivenums').value;
+				var split_five = firstfive.split(" ");
+				var luckyball = document.getElementById('luckyball').value;
+				var luck = false;
+				var similarity = 0;
+				for (var i = 0; i < split_five.length; i++) {
+					for (var j = 0; j < number_arr.length; j++) {
+						if (split_five[i] == number_arr[j]) {
+							number_arr.splice(j,1);
+							similarity++;
+						}
+					}
+				}
+				if (lucky_num == luckyball) {
+						luck = true;
+				}
+				payout(similarity, luck);
+			}
+
+			function payout(similarity, luck) {
+				if ((similarity == 0 && luck == false)
+					|| (similarity == 1 && luck == false)) {
+					document.getElementById('payout').innerHTML =
+					"You win nothing. You're still broke";
+				} else if (similarity == 0 && luck == true) {
+					document.getElementById("payout").innerHTML =
+					"Congrats. You win $4";
+				} else if (similarity == 1 && luck == true) {
+					document.getElementById("payout").innerHTML =
+					"Congrats. You win $6";
+				} else if (similarity == 2 && luck == false) {
+					document.getElementById("payout").innerHTML =
+					"Congrats. You win $3";
+				} else if (similarity == 2 && luck == true) {
+					document.getElementById("payout").innerHTML =
+					"Congrats. You win $25";
+				} else if (similarity == 3 && luck == false) {
+					document.getElementById("payout").innerHTML =
+					"Congrats. You win $20";
+				} else if (similarity == 3 && luck == true) {
+					document.getElementById("payout").innerHTML =
+					"Congrats. You win $150";
+				} else if (similarity == 4 && luck == false) {
+					document.getElementById("payout").innerHTML =
+					"Congrats. You win $200";
+				} else if (similarity == 4 && luck == true) {
+					document.getElementById("payout").innerHTML =
+					"Congrats. You win $5,000";
+				} else if (similarity == 5 && luck == false) {
+					document.getElementById("payout").innerHTML =
+					"Congrats. You win $25,000 a YEAR for LIFE";
+				} else if (similarity == 5 && luck == true) {
+					document.getElementById("payout").innerHTML =
+					"Congrats. You win $7,000 a WEEK for LIFE";
+				}
+			}
+	</script>
+	</form>
+
+</body>
+</html>
